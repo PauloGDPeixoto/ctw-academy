@@ -4,7 +4,7 @@ variable "resource_group_name" {
 }
 
 variable "resource_group_location" {
-  default     = "westeurope"
+  default     = "westeurope" # change to "germanywestcentral", if azure region quota limit has been exceeded
   description = "Location of the resource group."
 }
 
