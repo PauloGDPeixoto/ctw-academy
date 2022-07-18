@@ -6,3 +6,9 @@
   become: true
   tags:
     - skip_ansible_lint
+
+- name: Install Packages
+  package:
+    name: "{{ packagesToInstall }}"
+    state: present
+  become: true

@@ -1,0 +1,14 @@
+- name: Download test site
+  get_url:
+    url: "https://github.com/PauloGDPeixoto/ctw-academy/raw/main/resources/html_demo_site-main.zip"
+    dest: "{{ tmp_destination }}"
+
+- name: Unarchive site to destination folder
+  unarchive:
+    src: "{{ tmp_destination }}"
+    dest: "{{ document_root }}"
+    owner: "www-data"
+    group: "www-data"
+    remote_src: true
+  become: true
+  notify: Restart Nginx
