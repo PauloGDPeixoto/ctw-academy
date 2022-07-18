@@ -1,0 +1,4 @@
+- name: Deploy nginx and test site
+  hosts: webservers
+  roles:
+    - { role: install_packages, become: true }
