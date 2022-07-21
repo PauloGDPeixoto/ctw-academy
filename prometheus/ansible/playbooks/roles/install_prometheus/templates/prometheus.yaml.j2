@@ -1,0 +1,27 @@
+#jinja2: lstrip_blocks: "True"
+{{ prometheus_var_config | to_nice_yaml(indent=2) }}
+{% if prometheus_node_exporter_group %}
+- job_name: node_exporter
+  scrape_interval: 15s
+  static_configs:
+  - targets:
+{% for server in groups['all'] %}
+    {% if server in groups['server'] %}
+    - localhost:9100
+    {% else %}
+    - {{ server }}:9100
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+- job_name: alertmanager
+  scrape_interval: 15s
+  static_configs:
+  - targets:
+    - localhost:9093
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - localhost:9093

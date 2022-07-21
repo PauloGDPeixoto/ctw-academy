@@ -1,0 +1,16 @@
+- name: restart_prometheus
+  systemd:
+    name: prometheus
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+- name: reload_prometheus
+  uri:
+    url: http://localhost:9090/-/reload
+    method: POST
+    status_code: 200
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+  listen: systemd_reload

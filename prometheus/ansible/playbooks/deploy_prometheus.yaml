@@ -1,0 +1,15 @@
+- name: Deploy node-exporter
+  hosts: all
+  roles:
+    - { role: install_packages, become: true }
+    - { role: install_node-exporter, become: true }
+
+- name: Deploy nginx-exporter
+  hosts: clients
+  roles:
+    - { role: install_nginx-exporter, become: true }
+
+- name: Deploy prometheus and grafana
+  hosts: server
+  roles:
+    - { role: install_prometheus, become: true }
