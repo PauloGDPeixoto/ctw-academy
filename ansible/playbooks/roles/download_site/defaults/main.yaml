@@ -1,1 +1,2 @@
-document_root:
+document_root: /var/www/html
+tmp_destination: /tmp/test-site.zip
