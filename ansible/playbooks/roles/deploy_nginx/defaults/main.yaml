@@ -1,3 +1,0 @@
-server_name: "{{ ansible_default_ipv4.address }}"
-document_root: /var/www/html
-app_root: html_demo_site-main

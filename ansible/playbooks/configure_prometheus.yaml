@@ -1,0 +1,45 @@
+---
+- hosts: webservers
+  pre_tasks:
+    - name: Create node_exporter cert dir
+      file:
+        path: "/etc/node_exporter"
+        state: directory
+        owner: root
+        group: root
+
+  roles:
+    - prometheus.prometheus.prometheus
+    - prometheus.prometheus.node_exporter
+    - prometheus.prometheus.alertmanager
+    - grafana.grafana.grafana
+  vars_files:
+    - variables.yml
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - "{{node_exporter_url}}"
+
+    alertmanager_version: 0.25.0
+    alertmanager_slack_api_url: "{{alertmanager_slack_api_url}}"
+    alertmanager_receivers:
+      - name: slack
+        slack_configs:
+          - send_resolved: true
+            channel: '#alerts'
+    alertmanager_route:
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      receiver: slack
+    grafana_security:
+      admin_user: "{{grafana_username}}"
+      admin_password: "{{grafana_password}}"
+    grafana_datasources:
+      - name: prometheus
+        type: prometheus
+        access: proxy
+        url: "{{prometheus_url}}"
+        basicAuth: false

@@ -8,6 +8,13 @@ terraform {
       version = "~>3.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "cybersecurity-rg"
+    storage_account_name = "paocomchourico2385"
+    container_name       = "paocomchourico"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
