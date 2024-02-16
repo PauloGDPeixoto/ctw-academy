@@ -64,16 +64,43 @@ resource "azurerm_network_security_group" "myterraformnsg" {
   }
 
   security_rule {
-    name                       = "http"
-    priority                   = 1003
+    name                       = "alertManager"
+    priority                   = 1004
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "80"
+    destination_port_range     = "9093"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  security_rule {
+    name                       = "prometheus"
+    priority                   = 1005
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9090"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+    security_rule {
+    name                       = "grafana"
+    priority                   = 1006
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3000"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+
+  
 }
 
 # Create network interface
@@ -102,7 +129,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   location              = var.resource_group_location
   resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-  size                  = "Standard_A1_v2"
+  size                  = "Standard_D2s_v3"
 
   os_disk {
     name                 = "osDisk${random_string.number.result}"

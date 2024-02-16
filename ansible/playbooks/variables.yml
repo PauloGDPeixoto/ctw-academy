@@ -1,0 +1,5 @@
+alertmanager_slack_api_url: "http://example.com"
+prometheus_url: "http://localhost:9090"
+node_exporter_url: "http://localhost:9100"
+grafana_username: "admin"
+grafana_password: "ctwacademy"
